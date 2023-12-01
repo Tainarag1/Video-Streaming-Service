@@ -1,0 +1,29 @@
+class Usuario:
+    def __init__(self, email, senha):
+        self.email = email
+        self.senha = senha
+        self.assinaturas = []  # Lista para armazenar vídeos assinados
+
+class Video:
+    def __init__(self, titulo, url):
+        self.titulo = titulo
+        self.url = url
+
+class ServicoStreaming:
+    def __init__(self):
+        self.usuarios = []
+        self.videos = []
+
+    def cadastrar_usuario(self, email, senha):
+        novo_usuario = Usuario(email, senha)
+        self.usuarios.append(novo_usuario)
+        return novo_usuario
+
+    def cadastrar_video(self, titulo, url):
+        novo_video = Video(titulo, url)
+        self.videos.append(novo_video)
+        return novo_video
+
+    def assinar_video(self, usuario, video):
+        usuario.assinaturas.append(video)
+        print(f"{usuario.email} assinou o vídeo: {video.titulo}")
