@@ -2,7 +2,7 @@ class Usuario:
     def __init__(self, email, senha):
         self.email = email
         self.senha = senha
-        self.assinaturas = []  # Lista para armazenar vídeos assinados
+        self.assinaturas = []
 
 class Video:
     def __init__(self, titulo, url):
