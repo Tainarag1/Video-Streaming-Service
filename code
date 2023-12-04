@@ -27,3 +27,7 @@ class ServicoStreaming:
     def assinar_video(self, usuario, video):
         usuario.assinaturas.append(video)
         print(f"{usuario.email} assinou o vídeo: {video.titulo}")
+
+nome = str(input('Digite seu nome: '))
+print("Olá, " + nome + "! Seja bem-vindo(a)!\nDigite o número correspondente a uma das opções: 1 - Já tenho cadastro, desejo acessar.\n2 - Não tenho cadastro, desejo me cadastrar.\n")
+x = int(input())
