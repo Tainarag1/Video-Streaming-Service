@@ -45,52 +45,60 @@ class ServicoStreaming:
             print(f"{usuario.email} iniciou a aula: {aula.conteudo}")
         else:
             print("Você não está inscrito neste curso ou a aula não existe.")
+
 nome = input('Digite seu nome: ')
-print("Olá, " + nome + "! Seja bem-vindo(a)!\nDigite o número correspondente a uma das opções: 1 - Já tenho cadastro, desejo acessar.\n2 - Não tenho cadastro, desejo me cadastrar.\n")
+print("Olá, " + nome + "! Seja bem-vindo(a)!\nDigite o número correspondente a uma das opções: \n1 - Já tenho cadastro, desejo acessar.\n2 - Não tenho cadastro, desejo me cadastrar.\n")
 
-# Obtenha a escolha do usuário
-x = int(input())
 
-# Crie um serviço de streaming fora do bloco if
-meu_servico = ServicoStreaming()
-# Se o usuário deseja se cadastrar
-if x == 2:
-    # Solicite informações de cadastro
-    usuario_email = input("Digite seu e-mail: ")
-    usuario_senha = input("Digite sua senha: ")
+#Inicie o cadastro do usuario
+cadastro = 0
 
-    # Cadastre o usuário
-    novo_usuario = meu_servico.cadastrar_usuario(usuario_email, usuario_senha)
-    print(f"{nome} cadastrado com sucesso!")
+while cadastro == 0:
+    # Obtenha a escolha do usuário
+    x = int(input())
 
-    # Se o usuário escolheu acessar cadastro
+    # Crie um serviço de streaming fora do bloco if
+    meu_servico = ServicoStreaming()
+    # Se o usuário deseja se cadastrar
+    if x == 2:
+        # Solicite informações de cadastro
+        usuario_email = input("Digite seu e-mail: ")
+        usuario_senha = input("Digite sua senha: ")
 
-elif x == 1:
-    # Solicite informações de acesso
-    usuario_email = input("Digite seu e-mail: ")
-    usuario_senha = input("Digite sua senha: ")
+        # Cadastre o usuário
+        novo_usuario = meu_servico.cadastrar_usuario(usuario_email, usuario_senha)
+        cadastro = 1
+        print(f"{nome}, parabéns! Você foi cadastrado(a) com sucesso!")
 
-    # Verifique se o usuário está cadastrado
-    usuario_encontrado = None
-    for usuario in meu_servico.usuarios:
-        if usuario.email == usuario_email and usuario.senha == usuario_senha:
-            usuario_encontrado = usuario
-            break
+        # Se o usuário escolheu acessar cadastro
 
-    if usuario_encontrado:
-        print(f"Bem-vindo de volta, {usuario_encontrado.email}!")
+    elif x == 1:
+        # Solicite informações de acesso
+        usuario_email = input("Digite seu e-mail: ")
+        usuario_senha = input("Digite sua senha: ")
 
-        # Exemplo de como o usuário pode se inscrever em um curso e iniciar uma aula
-        curso = meu_servico.criar_curso("Python Básico", "Curso introdutório de Python")
-        usuario_encontrado.cursos_inscritos.append(curso)
+        # Verifique se o usuário está cadastrado
+        usuario_encontrado = None
+        for usuario in meu_servico.usuarios:
+            if usuario.email == usuario_email and usuario.senha == usuario_senha:
+                usuario_encontrado = usuario
+                break
 
-        aula = Aula("Introdução ao Python", "01/01/2023")
-        meu_servico.adicionar_aula_ao_curso(curso, aula)
+        if usuario_encontrado:
+            print(f"Bem-vindo de volta, {usuario_encontrado.email}!")
 
-        meu_servico.iniciar_aula(usuario_encontrado, curso, aula)
+            # Exemplo de como o usuário pode se inscrever em um curso e iniciar uma aula
+            curso = meu_servico.criar_curso("Python Básico", "Curso introdutório de Python")
+            usuario_encontrado.cursos_inscritos.append(curso)
+
+            aula = Aula("Introdução ao Python", "01/01/2023")
+            meu_servico.adicionar_aula_ao_curso(curso, aula)
+
+            meu_servico.iniciar_aula(usuario_encontrado, curso, aula)
+            cadastro = 1
+
+        else:
+            print("Usuário não encontrado. Por favor, verifique suas informações de acesso ou Digite 2 para fazer um cadastro.")
 
     else:
-        print("Usuário não encontrado. Por favor, verifique suas informações de acesso.")
-
-else:
-    print('Número Inválido! Digite um novo número.')
+        print('Número Inválido! Digite um novo número.')
