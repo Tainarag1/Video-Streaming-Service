@@ -3,31 +3,94 @@ class Usuario:
         self.email = email
         self.senha = senha
         self.assinaturas = []
+        self.cursos_inscritos = []
 
 class Video:
     def __init__(self, titulo, url):
         self.titulo = titulo
         self.url = url
 
+class Curso:
+    def __init__(self, titulo, descricao):
+        self.titulo = titulo
+        self.descricao = descricao
+        self.aulas = []
+
+class Aula:
+    def __init__(self, conteudo, data):
+        self.conteudo = conteudo
+        self.data = data
+
 class ServicoStreaming:
     def __init__(self):
         self.usuarios = []
         self.videos = []
+        self.cursos = []  # Lista de cursos no serviço de streaming
 
     def cadastrar_usuario(self, email, senha):
         novo_usuario = Usuario(email, senha)
         self.usuarios.append(novo_usuario)
         return novo_usuario
 
-    def cadastrar_video(self, titulo, url):
-        novo_video = Video(titulo, url)
-        self.videos.append(novo_video)
-        return novo_video
+    def criar_curso(self, titulo, descricao):
+        novo_curso = Curso(titulo, descricao)
+        self.cursos.append(novo_curso)
+        return novo_curso
 
-    def assinar_video(self, usuario, video):
-        usuario.assinaturas.append(video)
-        print(f"{usuario.email} assinou o vídeo: {video.titulo}")
+    def adicionar_aula_ao_curso(self, curso, aula):
+        curso.aulas.append(aula)
 
-nome = str(input('Digite seu nome: '))
+    def iniciar_aula(self, usuario, curso, aula):
+        if curso in usuario.cursos_inscritos and aula in curso.aulas:
+            print(f"{usuario.email} iniciou a aula: {aula.conteudo}")
+        else:
+            print("Você não está inscrito neste curso ou a aula não existe.")
+nome = input('Digite seu nome: ')
 print("Olá, " + nome + "! Seja bem-vindo(a)!\nDigite o número correspondente a uma das opções: 1 - Já tenho cadastro, desejo acessar.\n2 - Não tenho cadastro, desejo me cadastrar.\n")
+
+# Obtenha a escolha do usuário
 x = int(input())
+
+# Crie um serviço de streaming fora do bloco if
+meu_servico = ServicoStreaming()
+# Se o usuário deseja se cadastrar
+if x == 2:
+    # Solicite informações de cadastro
+    usuario_email = input("Digite seu e-mail: ")
+    usuario_senha = input("Digite sua senha: ")
+
+    # Cadastre o usuário
+    novo_usuario = meu_servico.cadastrar_usuario(usuario_email, usuario_senha)
+    print(f"{nome} cadastrado com sucesso!")
+
+    # Se o usuário escolheu acessar cadastro
+
+elif x == 1:
+    # Solicite informações de acesso
+    usuario_email = input("Digite seu e-mail: ")
+    usuario_senha = input("Digite sua senha: ")
+
+    # Verifique se o usuário está cadastrado
+    usuario_encontrado = None
+    for usuario in meu_servico.usuarios:
+        if usuario.email == usuario_email and usuario.senha == usuario_senha:
+            usuario_encontrado = usuario
+            break
+
+    if usuario_encontrado:
+        print(f"Bem-vindo de volta, {usuario_encontrado.email}!")
+
+        # Exemplo de como o usuário pode se inscrever em um curso e iniciar uma aula
+        curso = meu_servico.criar_curso("Python Básico", "Curso introdutório de Python")
+        usuario_encontrado.cursos_inscritos.append(curso)
+
+        aula = Aula("Introdução ao Python", "01/01/2023")
+        meu_servico.adicionar_aula_ao_curso(curso, aula)
+
+        meu_servico.iniciar_aula(usuario_encontrado, curso, aula)
+
+    else:
+        print("Usuário não encontrado. Por favor, verifique suas informações de acesso.")
+
+else:
+    print('Número Inválido! Digite um novo número.')
