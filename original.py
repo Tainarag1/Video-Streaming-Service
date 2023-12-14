@@ -137,7 +137,6 @@ class Sistema:
                 if usu.email == email:
                     senha = input('\nDigite sua senha: ')
                     if usu.senha == senha:
-                        print('\nBem-vindo(a) de volta!\n')
                         return usu
                     else:
                         print('\nSenha incorreta. Tente novamente.\n')
@@ -295,7 +294,7 @@ while True:
             continue
         else:
             id_usuario = novo_usuario.id
-            print(f"Bem-vindo(a) de volta, {novo_usuario.nome}!")
+            print(f"Bem-vindo(a) de volta, {nome}!")
             break
 
     elif x == 3:
