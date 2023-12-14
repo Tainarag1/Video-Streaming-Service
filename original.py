@@ -282,11 +282,7 @@ while True:
 
             elif(id_plano == '2'):
                 opcao = 2
-
-            else:
-                print('QUALLLLLLLLLLLLLLLLLLLLLLLLLLLLLL OPCAO')
-
-
+                
             print("Plano escolhido!")
 
         elif y == 2:
