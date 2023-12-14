@@ -295,7 +295,6 @@ while True:
         else:
             id_usuario = novo_usuario.id
             print(f"Bem-vindo(a) de volta, {nome}!")
-            break
 
     elif x == 3:
         print("Saindo do programa. Até logo!")
