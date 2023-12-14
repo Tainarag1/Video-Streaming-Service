@@ -1,6 +1,6 @@
 from modelo import *
 
-#Sistema da plataforma
+#Após importar a pasta adjunta do projeto, iniciamos a construcao do Sistema da plataforma
 
 class Sistema:
     def __init__(self):
@@ -54,7 +54,7 @@ class Sistema:
         plano_usuario = Usuario_plano(id_plano, id_usuario)
         self.Usuario_plano.append(plano_usuario)
 
-        return plano_usuario
+        return id_plano
     
     def obter_id_plano(self, id_usuario):
         for relacao in self.Usuario_plano:
@@ -127,22 +127,25 @@ class Sistema:
     
     
     def acessar_usuario(self):
-        is_valid = False
-        while not is_valid:
-            email = input('\nDigite seu email: ')
+        while True:
+            email = input('\nDigite seu email (ou digite 0 para voltar ao menu principal): ')
+            
+            if email == '0':
+                return None  # Retorna None para indicar a opção de voltar ao menu principal
+            
             for usu in self.Usuario:
-                if (usu.email == email):
+                if usu.email == email:
                     senha = input('\nDigite sua senha: ')
-                    for usu in self.usuario:
-                        if usu.senha == senha:
-                            is_valid = True
-                            print('\nBem-vindo(a) de volta!\n')
-                            return usu
-                        else:  print('\nSenha incorreta. Tente novamente.\n')
-                else: print('\nEmail invalido. Tente novamente.\n')        
-        
+                    if usu.senha == senha:
+                        print('\nBem-vindo(a) de volta!\n')
+                        return usu
+                    else:
+                        print('\nSenha incorreta. Tente novamente.\n')
+                    break  # Sair do loop for quando o usuário é encontrado
+            else:
+                print('\nEmail inválido. Tente novamente.\n')
         return None
-    
+        
     def procurar_aula_por_id(self, id_aula):
         for aula in self.Aula:
             if aula.id == id_aula:
@@ -151,17 +154,29 @@ class Sistema:
         print(f'Aula com ID {id_aula} não encontrada.')
         return None
 
-    def listar_videos_por_categoria(self, id_categoria):
-        print(f"\nLista de vídeos na categoria:")
-        
-        for aula_categoria in self.Aula_categoria:
-            if aula_categoria.Categoria_id == id_categoria:
-                id_aula = aula_categoria.Aula_id
-                aula = self.procurar_aula_por_id(id_aula)
-                if aula:
-                    print(f"\nID da Aula: {aula.id}\nTítulo: {aula.titulo}\nURL: {aula.url}")
-                else:
-                    print(f"Aula com ID {id_aula} não encontrada.")
+    def listar_videos_por_categoria(self, id_plano):
+        id = int(id_plano)
+        if id == 1:
+
+            for aul in self.Aula:
+                print(aula.id)
+                x = int(aula.id)
+                if x == 1:
+                    print("A URL da aula com ID 1 é: {}".format(aula.url))
+                    return
+
+
+
+            print("Seu plano é: DESAFIO GEOMÉTRICO\nAqui estão as aulas da sua categoria: ")
+
+            for aul in Aula:
+                print(f"\nID da Aula: {aula_item.id}\nTítulo: {aula_item.titulo}\nURL: {aula_item.url}\n")
+
+
+
+
+        elif(id == 2):
+            print("Seu plano é: DESAFIO DE EQUAÇÕES")
 
 
     #Buscar se o email ja tem cadastro
@@ -244,38 +259,84 @@ sistema.adicionar_categoria_plano(id_categoria, id_plano)
 
 #coletando o nome do usuario
 nome = input('Digite seu nome:')
-print(f'Olá, {nome}! Seja Bem-vindo(a)! \nDigite o numero correspondente a uma das opções:\n1- Criar uma conta\n2- Acessar minha conta')
 
 #Garantindo que o usuario escolheu uma opção valida
-is_valid = False
-while not is_valid:
+while True:
+    print(f"Olá, {nome}! Seja Bem-vindo(a)!\nVocê está no menu principal!\nDigite o número correspondente a uma das opções:")
+    print("1- Criar uma conta\n2- Acessar minha conta\n3- Sair")
+
     x = int(input())
+
     if x == 1:
-        is_valid = True
         novo_usuario = sistema.adicionar_usuario(nome)
         id_usuario = novo_usuario.id
-        plano = sistema.escolher_plano(id_usuario)
+        print("Agora escolha uma das opções:")
+        print("1- Escolher plano\n2- Voltar ao menu principal")
 
-    elif(x == 2):
-        is_valid = True
+        y = int(input())
+
+        if y == 1:
+            id_plano = sistema.escolher_plano(id_usuario)
+            if(id_plano == '1'):
+                opcao = 1
+
+            elif(id_plano == '2'):
+                opcao = 2
+
+            else:
+                print('QUALLLLLLLLLLLLLLLLLLLLLLLLLLLLLL OPCAO')
+
+
+            print("Plano escolhido!")
+
+        elif y == 2:
+            # Voltar ao menu principal
+            continue
+
+    elif x == 2:
         novo_usuario = sistema.acessar_usuario()
-        id_usuario = novo_usuario.id        
+        if(novo_usuario == None):
+            continue
+        else:
+            id_usuario = novo_usuario.id
+            print(f"Bem-vindo(a) de volta, {novo_usuario.nome}!")
+            break
+
+    elif x == 3:
+        print("Saindo do programa. Até logo!")
+        exit()
+
     else:
-        print("Opcao inválida. Tente novamente. \nDigite o numero correspondente a uma das opções:\n1- Criar uma conta\n2- Acessar minha conta")
+        print("Opção inválida. Tente novamente.")
+
+    print("Agora escolha uma das opções:")
+    y = int(input('\n1- Listar Videos\n2- Voltar ao menu principal: '))
 
 
-#print(sistema.procurar_relacao_Categoria_plano(id_plano))
+    if(y == 1):
+        if(opcao == 1):
+            print('A seguir está o link dos vídeos, clique para assistir: \nVídeo Poligonos: https://www.youtube.com/watch?v=5e8Ua4RhhXg \n Vídeo Angulos e Retas: https://www.youtube.com/watch?v=o-srrvPTo0Y')
+        elif(opcao == 2):
+            print('A seguir está o link dos vídeos, clique para assistir: \nVídeo Equacao do Segundo Grau: https://www.youtube.com/watch?v=1VjauwyHV0o \nVídeo Sistemas de Equacoes: https://www.youtube.com/watch?v=YTJPkVMdKho')
 
-# Obtendo o id do plano escolhido
-id_plano = sistema.obter_id_plano(id_usuario)
-
-print(f'Id plano = {id_plano}')
-
-
-id_categoria = sistema.obter_id_categoria(id_plano)
+    else:
 
 
+        print("\nOperação concluída. Obrigado por usar nosso sistema!")
 
-sistema.listar_videos_por_categoria(id_categoria)
+        # Adicionando uma mensagem de despedida
+        print("Deseja realizar mais alguma operação?")
+        print("1- Sim\n2- Sair")
 
-print("Teste")
+        opcao_final = int(input())
+
+        if opcao_final == 1:
+            # Reinicia o loop para permitir que o usuário escolha outra opção
+            continue
+        elif opcao_final == 2:
+            # Sai do programa
+            print("Saindo do programa. Até logo!")
+            break
+        else:
+            print("Opção inválida. Saindo do programa. Até logo!")
+            break
